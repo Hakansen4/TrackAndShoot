@@ -1,0 +1,17 @@
+{
+    "name": "EasyClap.Seneca.Common",
+    "rootNamespace": "EasyClap.Seneca.Common",
+    "references": [
+        "Eflatun.CodePatterns",
+        "UnitySceneReference"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
