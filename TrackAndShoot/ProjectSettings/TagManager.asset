@@ -6,11 +6,14 @@ TagManager:
   tags:
   - Obstacle
   - Bumper
+  - StartShoot
+  - Enemy
+  - LevelCompleted
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy
   - Water
   - UI
   - 

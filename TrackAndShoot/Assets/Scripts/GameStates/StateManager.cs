@@ -6,10 +6,15 @@ public class StateManager : MonoBehaviour
 {
     public static StateManager instance;
     [SerializeField] private List<GameObject> Canvases;
+    [SerializeField] private GameObject _LevelFailedCanvas;
+    [SerializeField] private GameObject _LevelCompletedCanvas;
     #region States
     private BaseGameState _CurrentState;
     public StartGameState _StartGameState = new StartGameState();
     public DriveGameState _DriveGameState = new DriveGameState();
+    public ShootGameState _ShootGameState = new ShootGameState();
+    public LevelCompletedState _LevelCompletedState = new LevelCompletedState();
+    public LevelFailedState _LevelFailedState = new LevelFailedState();
     #endregion
     private void Awake()
     {
@@ -52,5 +57,16 @@ public class StateManager : MonoBehaviour
             }
         }
         _FirstCanvas.SetActive(true);
+    }
+    public void LevelFinished(bool _IsFailed)
+    {
+        foreach (var canvas in Canvases)
+        {
+            canvas.SetActive(false);
+        }
+        if (_IsFailed)
+            _LevelFailedCanvas.SetActive(true);
+        else
+            _LevelCompletedCanvas.SetActive(true);
     }
 }

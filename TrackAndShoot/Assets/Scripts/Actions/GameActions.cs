@@ -9,6 +9,12 @@ public class GameActions : MonoBehaviour
 
     //public UnityAction<int, int> _PressedAction;
     public UnityAction _StartDriveAction;
+    public UnityAction _StartShootAction;
+    public UnityAction _UpgradeGun;
+    public UnityAction _UpgradeBumper;
+    public UnityAction _LevelFailed;
+    public UnityAction _LevelCompleted;
+    public UnityAction _EarnMoney;
     private void Awake()
     {
         if (instance != null && instance != this)

@@ -1,0 +1,87 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GunController : MonoBehaviour,IUpgradable
+{
+    [SerializeField] private float _RotationValue;
+    [SerializeField] private float _Range;
+    [SerializeField] private float _RayThickness;
+    [SerializeField] private float _FireRate;
+    [SerializeField] private GameObject[] _Guns;
+    [SerializeField] private ParticleSystem _FireEffect;
+    private const float _MAX_ROTATE_VALUE = 60.0f;
+    private float _FireTimer;
+    private bool _IsShootingStarted;
+    private RaycastHit _Hit;
+    private void OnEnable()
+    {
+        GameActions.instance._StartShootAction += StartShooting;
+        GameActions.instance._UpgradeGun += Upgrade;
+        _FireEffect.Stop();
+    }
+    private void OnDisable()
+    {
+        GameActions.instance._StartShootAction -= StartShooting;
+        GameActions.instance._UpgradeGun -= Upgrade;
+    }
+    private void StartShooting()
+    {
+        _IsShootingStarted = true;
+    }
+    private void Update()
+    {
+        if (!_IsShootingStarted)
+            return;
+        RotateGun();
+        ShootTheGun();
+    }
+    private void RotateGun()
+    {
+        float _Horizontal = Input.GetAxis("Horizontal");
+        _Horizontal = _Horizontal * _RotationValue;
+        //_Horizontal = Mathf.Clamp(_Horizontal, -_MAX_ROTATE_VALUE - transform.rotation.y, _MAX_ROTATE_VALUE - transform.rotation.y);
+        transform.Rotate(Vector3.up * _Horizontal);
+    }
+    private void ShootTheGun()
+    {
+        if (Time.time - _FireTimer < _FireRate)
+            return;
+
+        Ray _Ray = new Ray();
+        _Ray.origin = transform.position;
+        _Ray.direction = transform.TransformDirection(Vector3.back);
+        //Debug.DrawRay(_Ray.origin, _Ray.direction * _Range, Color.green);
+        _FireEffect.Play();
+        StartCoroutine(StopFireEffect());
+        if(Physics.SphereCast(_Ray,_RayThickness,out _Hit,10))
+        {
+            if (_Hit.collider.CompareTag("Enemy"))
+            {
+                _Hit.collider.GetComponent<HealthBarEnemy>().TakeBulletDamage();
+            }
+        }
+        _FireTimer = Time.time;
+    }
+
+    public void Upgrade()
+    {
+        if (_FireRate <= 0.5f)
+            return;
+        _FireRate -= 0.25f;
+        for (int i = 0; i < _Guns.Length; i++)
+        {
+            if(_Guns[i].active)
+            {
+                _Guns[i].SetActive(false);
+                _Guns[i + 1].SetActive(true);
+                return;
+            }
+        }
+    }
+    private IEnumerator StopFireEffect()
+    {
+        yield return new WaitForSeconds(0.2f);
+        _FireEffect.Stop();
+    }
+}
