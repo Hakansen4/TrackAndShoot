@@ -10,7 +10,8 @@ public class GunController : MonoBehaviour,IUpgradable
     [SerializeField] private float _FireRate;
     [SerializeField] private GameObject[] _Guns;
     [SerializeField] private ParticleSystem _FireEffect;
-    private const float _MAX_ROTATE_VALUE = 60.0f;
+    [SerializeField] private AudioSource _FireSound;
+    private const float _MAX_ROTATE_VALUE = 0.6f;
     private float _FireTimer;
     private bool _IsShootingStarted;
     private RaycastHit _Hit;
@@ -18,16 +19,24 @@ public class GunController : MonoBehaviour,IUpgradable
     {
         GameActions.instance._StartShootAction += StartShooting;
         GameActions.instance._UpgradeGun += Upgrade;
+        GameActions.instance._LevelCompleted += StopShooting;
+        GameActions.instance._LevelFailed += StopShooting;
         _FireEffect.Stop();
     }
     private void OnDisable()
     {
         GameActions.instance._StartShootAction -= StartShooting;
         GameActions.instance._UpgradeGun -= Upgrade;
+        GameActions.instance._LevelCompleted -= StopShooting;
+        GameActions.instance._LevelFailed -= StopShooting;
     }
     private void StartShooting()
     {
         _IsShootingStarted = true;
+    }
+    private void StopShooting()
+    {
+        _IsShootingStarted = false;
     }
     private void Update()
     {
@@ -38,9 +47,9 @@ public class GunController : MonoBehaviour,IUpgradable
     }
     private void RotateGun()
     {
-        float _Horizontal = Input.GetAxis("Horizontal");
+        float _Horizontal = InputManager.instance.GetDragGunValue();
         _Horizontal = _Horizontal * _RotationValue;
-        //_Horizontal = Mathf.Clamp(_Horizontal, -_MAX_ROTATE_VALUE - transform.rotation.y, _MAX_ROTATE_VALUE - transform.rotation.y);
+        _Horizontal = Mathf.Clamp(_Horizontal, -_MAX_ROTATE_VALUE - transform.rotation.y, _MAX_ROTATE_VALUE - transform.rotation.y);
         transform.Rotate(Vector3.up * _Horizontal);
     }
     private void ShootTheGun()
@@ -51,9 +60,8 @@ public class GunController : MonoBehaviour,IUpgradable
         Ray _Ray = new Ray();
         _Ray.origin = transform.position;
         _Ray.direction = transform.TransformDirection(Vector3.back);
-        //Debug.DrawRay(_Ray.origin, _Ray.direction * _Range, Color.green);
         _FireEffect.Play();
-        StartCoroutine(StopFireEffect());
+        _FireSound.Play();
         if(Physics.SphereCast(_Ray,_RayThickness,out _Hit,10))
         {
             if (_Hit.collider.CompareTag("Enemy"))
@@ -66,9 +74,9 @@ public class GunController : MonoBehaviour,IUpgradable
 
     public void Upgrade()
     {
-        if (_FireRate <= 0.5f)
+        if (_FireRate <= 0.05f)
             return;
-        _FireRate -= 0.25f;
+        _FireRate -= 0.15f;
         for (int i = 0; i < _Guns.Length; i++)
         {
             if(_Guns[i].active)
@@ -78,10 +86,5 @@ public class GunController : MonoBehaviour,IUpgradable
                 return;
             }
         }
-    }
-    private IEnumerator StopFireEffect()
-    {
-        yield return new WaitForSeconds(0.2f);
-        _FireEffect.Stop();
     }
 }

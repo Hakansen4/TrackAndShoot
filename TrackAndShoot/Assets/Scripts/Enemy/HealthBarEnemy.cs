@@ -44,7 +44,7 @@ public class HealthBarEnemy : MonoBehaviour,IDie
     }
     public void TakeBulletDamage()
     {
-        _Health -= 25;
+        _Health -= 50;
         if (_Health <= 0)
             Die();
     }

@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _LeftBoundarie;
     [SerializeField] private float _RightBoundarie;
     private const float _ROTATE_VALUE = 20.0f;
+    private const float _ROTATE_EDGE = 60.0f;
     private bool _IsShootingStarted = false;
     private bool _IsGameStarted;
     private void OnEnable()
@@ -62,9 +63,9 @@ public class PlayerMovement : MonoBehaviour
         if (_IsShootingStarted)
             return;
 
-        float _Horizontal = Input.GetAxis("Horizontal");
-        CheckRotate(_Horizontal);
-        float _Xvalue = (_Horizontal * _Speed * Time.deltaTime) + transform.position.x;
+        float _Horizontal = InputManager.instance.GetDragValue();
+        CheckRotate(_Horizontal/500);
+        float _Xvalue = (_Horizontal * _Speed * Time.deltaTime/500) + transform.position.x;
         _Xvalue = Mathf.Clamp(_Xvalue, _LeftBoundarie, _RightBoundarie);
         transform.position = new Vector3(_Xvalue, transform.position.y, transform.position.z);
     }
@@ -74,10 +75,10 @@ public class PlayerMovement : MonoBehaviour
     }
     private void CheckRotate(float HorizontalValue)
     {
-        transform.rotation = Quaternion.Euler(Vector3.up * HorizontalValue * _ROTATE_VALUE);
-        _RightWheel.rotation = Quaternion.Euler(Vector3.up * HorizontalValue * _ROTATE_VALUE);
-        _RightWheel.Rotate(Vector3.up * HorizontalValue * _ROTATE_VALUE);
-        _LeftWheel.rotation = Quaternion.Euler(Vector3.up * HorizontalValue * _ROTATE_VALUE);
-        _LeftWheel.Rotate(Vector3.up * HorizontalValue * _ROTATE_VALUE);
+        Vector3 _RotateValue = Vector3.up * HorizontalValue * _ROTATE_VALUE;
+        _RotateValue.y = Mathf.Clamp(_RotateValue.y, -_ROTATE_EDGE, _ROTATE_EDGE);
+        transform.rotation = Quaternion.Euler(_RotateValue);
+        _RightWheel.rotation = Quaternion.Euler(2 * _RotateValue);
+        _LeftWheel.rotation = Quaternion.Euler(2 * _RotateValue);
     }
 }

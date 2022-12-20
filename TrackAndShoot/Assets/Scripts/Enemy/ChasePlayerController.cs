@@ -45,7 +45,8 @@ public class ChasePlayerController : MonoBehaviour
         else
         {
             _ChaseDestination = new Vector3(_RandomX, _PlayerTransform.position.y, _PlayerTransform.position.z - _Distance);
-            _Agent.SetDestination(_ChaseDestination);
+            if (_Agent.enabled)
+                _Agent.SetDestination(_ChaseDestination);
         }
             
     }
