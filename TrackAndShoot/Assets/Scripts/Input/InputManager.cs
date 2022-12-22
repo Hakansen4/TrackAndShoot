@@ -53,7 +53,7 @@ public class InputManager : MonoBehaviour
             _DragGunValue = 0;
             _ResetDragValue = true;
         }
-#endif
+        #endif
         if (Input.touchCount > 0    &&  Input.touches[0].phase == TouchPhase.Began)
         {
             _ResetDragValue = false;

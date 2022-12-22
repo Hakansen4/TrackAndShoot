@@ -53,6 +53,7 @@ public class PlayerCollisionController : MonoBehaviour,IDie
     }
     private void UpdateHealthBar()
     {
+        //DELTA TIME DENE
         if(_OldHealth != _PlayerHealth  &&  Time.time - _Timer > 0.5f)
         {
             _OldHealth--;
