@@ -53,7 +53,7 @@ namespace PaintIn3D.Examples
 
 			final = final.Replace("{TOTAL}", total.ToString());
 			final = final.Replace("{COUNT}", count.ToString());
-			final = final.Replace("{PERCENT}", percent.ToString());
+			final = final.Replace("{PERCENT}",(100 - percent).ToString());
 
 			cachedText.text = final;
 		}

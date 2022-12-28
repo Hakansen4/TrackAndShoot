@@ -9,6 +9,7 @@ TagManager:
   - StartShoot
   - Enemy
   - LevelCompleted
+  - StartPaint
   layers:
   - Default
   - TransparentFX

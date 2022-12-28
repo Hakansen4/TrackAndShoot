@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
         GameActions.instance._StartShootAction += StartShooting;
         GameActions.instance._LevelCompleted += LevelFinished;
         GameActions.instance._LevelFailed += LevelFinished;
+        GameActions.instance._StartPainting += LevelFinished;
     }
     private void OnDisable()
     {
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
         GameActions.instance._StartShootAction -= StartShooting;
         GameActions.instance._LevelCompleted -= LevelFinished;
         GameActions.instance._LevelFailed -= LevelFinished;
+        GameActions.instance._StartPainting -= LevelFinished;
     }
     private void LevelFinished()
     {

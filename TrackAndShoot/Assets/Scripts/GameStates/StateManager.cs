@@ -13,6 +13,7 @@ public class StateManager : MonoBehaviour
     public StartGameState _StartGameState = new StartGameState();
     public DriveGameState _DriveGameState = new DriveGameState();
     public ShootGameState _ShootGameState = new ShootGameState();
+    public PaintGameState _PaintGameState = new PaintGameState();
     public LevelCompletedState _LevelCompletedState = new LevelCompletedState();
     public LevelFailedState _LevelFailedState = new LevelFailedState();
     #endregion

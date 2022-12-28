@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PlayerCollisionController : MonoBehaviour,IDie
 {
@@ -22,7 +23,7 @@ public class PlayerCollisionController : MonoBehaviour,IDie
     }
     private void Update()
     {
-        UpdateHealthBar();
+        //UpdateHealthBar();
     }
     public void Die()
     {
@@ -34,6 +35,7 @@ public class PlayerCollisionController : MonoBehaviour,IDie
         {
             other.gameObject.SetActive(false);
             _PlayerHealth -= 200;
+            _PlayerHealthBar.DOValue(_PlayerHealth, 1.0f).SetEase(Ease.Flash);
             _CrushEffect.Play();
             if (_PlayerHealth <= 0)
                 Die();
@@ -46,9 +48,9 @@ public class PlayerCollisionController : MonoBehaviour,IDie
                 StateManager.instance.SwitchState(StateManager.instance._ShootGameState);
             }
         }
-        else if(other.CompareTag("LevelCompleted"))
+        else if(other.CompareTag("StartPaint"))
         {
-            StateManager.instance.SwitchState(StateManager.instance._LevelCompletedState);
+            StateManager.instance.SwitchState(StateManager.instance._PaintGameState);
         }
     }
     private void UpdateHealthBar()

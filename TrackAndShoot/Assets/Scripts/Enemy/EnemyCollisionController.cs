@@ -20,6 +20,7 @@ public class EnemyCollisionController : MonoBehaviour,IDie
     private IEnumerator WaitForDestroy()
     {
         GetComponent<NavMeshAgent>().enabled = false;
+        GetComponent<Collider>().enabled = false;
         ChangeColor();
         transform.DOJump((transform.position + 5f * Vector3.forward), 0.6f, 1, 1f);
         GetComponent<Animator>().SetTrigger("Death");

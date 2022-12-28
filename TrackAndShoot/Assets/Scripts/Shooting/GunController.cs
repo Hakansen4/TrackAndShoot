@@ -21,6 +21,7 @@ public class GunController : MonoBehaviour,IUpgradable
         GameActions.instance._UpgradeGun += Upgrade;
         GameActions.instance._LevelCompleted += StopShooting;
         GameActions.instance._LevelFailed += StopShooting;
+        GameActions.instance._StartPainting += StopShooting;
         _FireEffect.Stop();
     }
     private void OnDisable()
@@ -29,6 +30,7 @@ public class GunController : MonoBehaviour,IUpgradable
         GameActions.instance._UpgradeGun -= Upgrade;
         GameActions.instance._LevelCompleted -= StopShooting;
         GameActions.instance._LevelFailed -= StopShooting;
+        GameActions.instance._StartPainting -= StopShooting;
     }
     private void StartShooting()
     {

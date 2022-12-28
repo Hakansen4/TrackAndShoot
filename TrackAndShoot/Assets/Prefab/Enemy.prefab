@@ -580,7 +580,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1699578630024078834}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.2
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -607,6 +607,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _PlayerTransform: {fileID: 0}
   _Agent: {fileID: 1699578630024078833}
+  _Distance: 0
+  _ShootingDistance: 0
+  _RandomX: 0
 --- !u!114 &1699578630024078837
 MonoBehaviour:
   m_ObjectHideFlags: 0

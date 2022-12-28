@@ -14,6 +14,7 @@ public class GameActions : MonoBehaviour
     public UnityAction _UpgradeBumper;
     public UnityAction _LevelFailed;
     public UnityAction _LevelCompleted;
+    public UnityAction _StartPainting;
     public UnityAction _EarnMoney;
     private void Awake()
     {
